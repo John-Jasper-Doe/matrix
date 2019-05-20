@@ -142,6 +142,21 @@ class sparse_matrix
       return next_index(static_cast<std::tuple<size_t>>(index), data_);
     }
 
+    /**
+     * @brief The number of calls occupied by the data matrix.
+     * @return The number of occupied calls.
+     */
+    size_t size() const {
+      return data_.size();
+    }
+
+    /**
+     * Clearing the matrix data.
+     */
+    void clear() {
+      data_.clear();
+    }
+
 
   private:
     std::map<index_t, value_type_t> data_;            /** - data container. */

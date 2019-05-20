@@ -39,6 +39,10 @@ int main()
   }
   std::cout << std::endl;
 
+  /* Output the number of matrix cells occupied by the data */
+  std::cout << matrix.size() << '\n' << std::endl;
+
+
   return 0;
 }
 
