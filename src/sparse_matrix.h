@@ -126,6 +126,22 @@ class sparse_matrix
       return data_ == other.data_;
     }
 
+    /**
+     *  @brief Access operator by index.
+     *  @param index [in] - matrix index.
+     */
+    next_index operator[](const size_t index) {
+      return next_index(static_cast<std::tuple<size_t>>(index), data_);
+    }
+
+    /**
+     *  @brief Constant access operator by index.
+     *  @param index [in] - matrix index.
+     */
+    const next_index operator[](const size_t index) const {
+      return next_index(static_cast<std::tuple<size_t>>(index), data_);
+    }
+
 
   private:
     std::map<index_t, value_type_t> data_;            /** - data container. */
