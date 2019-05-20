@@ -42,6 +42,16 @@ int main()
   /* Output the number of matrix cells occupied by the data */
   std::cout << matrix.size() << '\n' << std::endl;
 
+  /* Output of all occupied cells in the matrix */
+  for (const std::tuple<size_t, size_t, int> &elem : matrix) {
+    const size_t &hindex = std::get<0>(elem);
+    const size_t &vindex = std::get<1>(elem);
+    const int &value = std::get<2>(elem);
+
+    std::cout << "[" << hindex << ", " << vindex << "] = " << value << '\n';
+  }
+
+  std::cout << std::endl;
 
   return 0;
 }
