@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
- * @file    sparse_matrix.h
+ * @file    sparse_matrix.hpp
  * @author  Maxim <aveter@bk.ru>
  * @date    19/05/2019
  * @brief   Description of the template "Sparse matrix".
  ******************************************************************************
  */
 
-#ifndef SPARSE_MATRIX_H_
-#define SPARSE_MATRIX_H_
+#ifndef SPARSE_MATRIX_HPP_
+#define SPARSE_MATRIX_HPP_
 
 #include <unistd.h>
 #include <map>
@@ -243,4 +243,4 @@ class sparse_matrix<value_type_t, default_value, matrix_size>::
 };
 
 
-#endif /* SPARSE_MATRIX_H_ */
+#endif /* SPARSE_MATRIX_HPP_ */
