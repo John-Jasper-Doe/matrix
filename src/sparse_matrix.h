@@ -58,13 +58,36 @@ class sparse_matrix
     sparse_matrix(const sparse_matrix &other)
       : data_(other.data_) {}
 
-    /** @brief Moving constructor.
+    /** @brief Move constructor.
      *  @param other [in] - the object to move.*/
     sparse_matrix(sparse_matrix &&other)
       : data_(std::move(other.data_)) {}
 
     /** The default destructor. */
     virtual ~sparse_matrix() = default;
+
+    /** @brief Copy operator.
+     *  @param other [in] - the object to copy. */
+    sparse_matrix & operator=(const sparse_matrix &other) {
+      if (*this != other)
+        data_ = other.data_;
+
+      return *this;
+    }
+
+    /** @brief Move operator.
+     *  @param other [in] - the object to move.*/
+    sparse_matrix & operator=(sparse_matrix &&other) {
+      data_ = std::move(other.data_);
+      return *this;
+    }
+
+    /** @brief Comparison operator.
+     *  @param other [in] - the object to move.*/
+    bool operator==(const sparse_matrix &other) const {
+      return data_ == other.data_;
+    }
+
 
   private:
     std::map<index_t, value_type_t> data_;            /** - data container. */
