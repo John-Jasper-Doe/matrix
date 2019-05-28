@@ -27,7 +27,7 @@ namespace jjd {
  * @tparam MATRIX_SIZE - matrix size (default 2).
  */
 template<typename T, T DEFAULT_VALUE = -1, size_t MATRIX_SIZE = 2>
-class sparse_matrix
+class matrix
 {
   private:
     /**
@@ -91,9 +91,13 @@ class sparse_matrix
     /**
      * The default constructor.
      */
-    sparse_matrix() = default;
+    matrix() = default;
 
-    sparse_matrix(const init_list_t &list) {
+    /**
+     * @brief The constructor with a list of initialization.
+     * @param list [in] - list with initialization parameters.
+     */
+    matrix(const init_list_t &list) {
       size_t idx_m = 0;
       for (auto &value : list) {
         add(idx_m, 0, value);
@@ -101,8 +105,11 @@ class sparse_matrix
       }
     }
 
-
-    sparse_matrix(const std::initializer_list<const init_list_t> &list) {
+    /**
+     * @brief The constructor with a list of initialization parameter lists.
+     * @param list [in] - list with initialization parameters.
+     */
+    matrix(const std::initializer_list<const init_list_t> &list) {
       size_t idx_n = 0;
       for (auto &sub_list : list) {
         size_t idx_m = 0;
@@ -118,26 +125,26 @@ class sparse_matrix
      * @brief Copy constructor.
      * @param other [in] - the object to copy.
      */
-    sparse_matrix(const sparse_matrix &other)
+    matrix(const matrix &other)
       : data_(other.data_) {}
 
     /**
      * @brief Move constructor.
      * @param other [in] - the object to move.
      */
-    sparse_matrix(sparse_matrix &&other)
+    matrix(matrix &&other)
       : data_(std::move(other.data_)) {}
 
     /**
      * The default destructor.
      */
-    virtual ~sparse_matrix() = default;
+    virtual ~matrix() = default;
 
     /**
      * @brief Copy operator.
      * @param other [in] - the object to copy.
      */
-    sparse_matrix & operator=(const sparse_matrix &other) {
+    matrix & operator=(const matrix &other) {
       data_ = other.data_;
       return *this;
     }
@@ -146,17 +153,18 @@ class sparse_matrix
      * @brief Move operator.
      * @param other [in] - the object to move.
      */
-    sparse_matrix & operator=(sparse_matrix &&other) {
+    matrix & operator=(matrix &&other) {
       data_ = std::move(other.data_);
       return *this;
     }
 
     /**
-     * @brief
-     * @param other [in] -
+     * @brief Multiplication by integer operation.
+     * @param value [in] - multiplication value.
+     * @return Operation result.
      */
-    sparse_matrix operator*(const int value) {
-      sparse_matrix tmp;
+    matrix operator*(const int value) {
+      matrix tmp;
       auto it_m = begin();
       for (; it_m != end(); ++it_m) {
         tmp[std::get<0>(*it_m)][std::get<1>(*it_m)] = std::get<2>(*it_m) *
@@ -166,11 +174,11 @@ class sparse_matrix
     }
 
     /**
-     * @brief operator *
-     * @param value
-     * @return
+     * @brief Multiplication by integer operation (to myself).
+     * @param value [in] - multiplication value.
+     * @return Operation result.
      */
-    sparse_matrix operator*=(const int value) {
+    matrix operator*=(const int value) {
       auto it_m = begin();
       for (; it_m != end(); ++it_m) {
          std::get<2>(*it_m) *= value;
@@ -179,17 +187,18 @@ class sparse_matrix
     }
 
     /**
-     * @brief
-     * @param other [in] -
+     * @brief Addition with another matrix.
+     * @param other [in] - another matrix for addition.
+     * @return Operation result.
      */
-    sparse_matrix operator+(const sparse_matrix &other) {
+    matrix operator+(const matrix &other) {
       const std::tuple<size_t, size_t> m1 = size();
       const std::tuple<size_t, size_t> m2 = other.size();
       if (m1 != m2) {
-        // TODO: Added exeption
+        /* TODO: Added exeption */
       }
 
-      sparse_matrix tmp;
+      matrix tmp;
       auto it_m1 = begin();
       auto it_m2 = other.cbegin();
       for (; it_m1 != end(); ++it_m1, ++it_m2) {
@@ -200,15 +209,15 @@ class sparse_matrix
     }
 
     /**
-     * @brief operator +=
-     * @param other
-     * @return
+     * @brief Addition with another matrix (to myself)
+     * @param other [in] - another matrix for addition.
+     * @return Operation result.
      */
-    sparse_matrix operator+=(const sparse_matrix &other) {
+    matrix operator+=(const matrix &other) {
       const std::tuple<size_t, size_t> m1 = size();
       const std::tuple<size_t, size_t> m2 = other.size();
       if (m1 != m2) {
-        // TODO: Added exeption
+        /* TODO: Added exeption */
       }
 
       auto it_m1 = begin();
@@ -223,7 +232,7 @@ class sparse_matrix
      * @brief Comparison operator.
      * @param other [in] - the object to compare.
      */
-    bool operator==(const sparse_matrix &other) const {
+    bool operator==(const matrix &other) const {
       return data_ == other.data_;
     }
 
@@ -231,7 +240,7 @@ class sparse_matrix
      * @brief Comparison operator.
      * @param other [in] - the object to compare.
      */
-    bool operator!=(const sparse_matrix &other) const {
+    bool operator!=(const matrix &other) const {
       return data_ != other.data_;
     }
 
@@ -299,14 +308,16 @@ class sparse_matrix
     }
 
     /**
-     *
+     * @brief "m" matrix size.
+     * @return "m" size.
      */
     size_t m_size() {
       return std::get<0>(size()) + 1;
     }
 
     /**
-     *
+     * @brief "n" matrix size.
+     * @return "n" size.
      */
     size_t n_size() {
       return std::get<1>(size()) + 1;
@@ -318,17 +329,18 @@ class sparse_matrix
     const T default_value_{DEFAULT_VALUE}; /**< - default value. */
 
     /**
-     * @brief add
-     * @param idx_m
-     * @param idx_n
-     * @param value
+     * @brief Added value in matrix by index.
+     * @param idx_m [in] - "m" index.
+     * @param idx_n [in] - "n" index.
+     * @param value [in] - data.
      */
     void add(unsigned idx_m, unsigned idx_n, T value) {
       data_[std::make_tuple(idx_m, idx_n)] = value;
     }
 
     /**
-     *
+     * @brief Matrix size.
+     * @return Tuple with size.
      */
     const std::tuple<size_t, size_t> & size() const {
       return (--data_.end())->first;
@@ -341,15 +353,15 @@ class sparse_matrix
  */
 template<typename T, T DEFAULT_VALUE, size_t MATRIX_SIZE>
 template<size_t num, typename... types_t>
-class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix
+class matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix
 {
   private:
     /* Aliases */
     using next_index = index_matrix<num - 1, types_t..., size_t>;
 
-    const sparse_matrix::contener_t &data_; /**< - container with data. */
-    std::tuple<types_t...> index_view_;     /**< - representation of the index
-                                             *     as a tuple. */
+    const matrix::contener_t &data_;      /**< - container with data. */
+    std::tuple<types_t...> index_view_;   /**< - representation of the index
+                                           *     as a tuple. */
 
   public:
     /**
@@ -358,7 +370,7 @@ class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix
      * @param data [in] - contener.
      */
     index_matrix(std::tuple<types_t...> index_view,
-                 const sparse_matrix::contener_t &data)
+                 const matrix::contener_t &data)
       : data_{data}, index_view_{index_view}
     {}
 
@@ -385,12 +397,12 @@ class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix
  */
 template<typename T, T DEFAULT_VALUE, size_t MATRIX_SIZE>
 template<typename... types_t>
-class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix<0, types_t...>
+class matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix<0, types_t...>
 {
   private:
-    const sparse_matrix::contener_t &data_;   /**< - container with data. */
-    std::tuple<types_t...> index_view_;       /**< - representation of the
-                                               *     index as a tuple. */
+    const matrix::contener_t &data_;        /**< - container with data. */
+    std::tuple<types_t...> index_view_;     /**< - representation of the
+                                             *     index as a tuple. */
     const T default_value_{DEFAULT_VALUE};
 
   public:
@@ -400,7 +412,7 @@ class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix<0, types_t...>
      * @param data [in] - contener.
      */
     index_matrix(std::tuple<types_t...> index_view,
-                 const sparse_matrix::contener_t &data)
+                 const matrix::contener_t &data)
       : data_{data}, index_view_{index_view}
     {}
 
@@ -410,11 +422,11 @@ class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix<0, types_t...>
      */
     auto & operator=(const T &value) {
       if (value != default_value_)
-        const_cast<sparse_matrix::contener_t &>(data_)[index_view_] = value;
+        const_cast<matrix::contener_t &>(data_)[index_view_] = value;
       else {
         auto it = data_.find(index_view_);
         if (it != data_.cend())
-          const_cast<sparse_matrix::contener_t &>(data_).erase(it);
+          const_cast<matrix::contener_t &>(data_).erase(it);
       }
       return *this;
     }
@@ -433,11 +445,11 @@ class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::index_matrix<0, types_t...>
  * Class that implements an iterator for working with matrix data.
  */
 template<typename T, T DEFAULT_VALUE, size_t MATRIX_SIZE>
-class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::iterator_matrix
+class matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::iterator_matrix
 {
   private:
     /* Aliases */
-    using iterator_t = typename sparse_matrix::contener_t::iterator;
+    using iterator_t = typename matrix::contener_t::iterator;
     using iterator_category_t = std::input_iterator_tag;
 
     iterator_t map_iterator_;   /**< - iterator of the data. */
@@ -507,11 +519,11 @@ class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::iterator_matrix
  * Class that implements an const iterator for working with matrix data.
  */
 template<typename T, T DEFAULT_VALUE, size_t MATRIX_SIZE>
-class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::const_iterator_matrix
+class matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::const_iterator_matrix
 {
   private:
     /* Aliases */
-    using iterator_t = typename sparse_matrix::contener_t::const_iterator;
+    using iterator_t = typename matrix::contener_t::const_iterator;
     using iterator_category_t = std::input_iterator_tag;
 
     iterator_t map_iterator_;   /**< - iterator of the data. */
