@@ -7,7 +7,7 @@
  ******************************************************************************
  */
 
-#include "sparse_matrix.hpp"
+#include "matrix.hpp"
 
 #include <iostream>
 #include <iomanip>
