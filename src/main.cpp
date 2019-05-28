@@ -64,6 +64,14 @@ int main()
   print_matrix(m3);
 
 
+  /* Example of multiplying a matrix by a number. */
+  sparse_matrix<int> m4 = m3 * 4;
+  std::cout << "Multiplying m3 on number 4 (m4 = m3 * 4):" << std::endl;
+  std::cout << "Size m4: " << m4.m_size() << "x" <<  m4.n_size() << std::endl;
+  print_matrix(m4);
+
+
+
   return 0;
 }
 
