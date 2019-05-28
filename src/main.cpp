@@ -70,6 +70,12 @@ int main()
   std::cout << "Size m4: " << m4.m_size() << "x" <<  m4.n_size() << std::endl;
   print_matrix(m4);
 
+  /* Example of the addition of two matrixs. */
+  sparse_matrix<int> m5 = m3 + m4;
+  std::cout << "Addition m3 and m4 (m5 = m3 + m4):" << std::endl;
+  std::cout << "Size m5: " << m5.m_size() << "x" <<  m5.n_size() << std::endl;
+  print_matrix(m5);
+
 
 
   return 0;
