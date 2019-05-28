@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
- * @file    sparse_matrix.hpp
+ * @file    matrix.hpp
  * @author  Maxim <aveter@bk.ru>
- * @date    19/05/2019
- * @brief   Description of the template "Sparse matrix".
+ * @date    25/05/2019
+ * @brief   Description of the template "Matrix".
  ******************************************************************************
  */
 
-#ifndef SPARSE_MATRIX_HPP_
-#define SPARSE_MATRIX_HPP_
+#ifndef JJD_MATRIX_HPP_
+#define JJD_MATRIX_HPP_
 
 #include <unistd.h>
 #include <map>
@@ -17,6 +17,8 @@
 #include <iostream>
 #include <initializer_list>
 
+
+namespace jjd {
 
 /**
  * @brief The sparse matrix template class.
@@ -574,4 +576,6 @@ class sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE>::const_iterator_matrix
     }
 };
 
-#endif /* SPARSE_MATRIX_HPP_ */
+} /* namespace jjd */
+
+#endif /* JJD_MATRIX_HPP_ */
