@@ -17,41 +17,47 @@
 /** @brief Main function / entry point. */
 int main()
 {
-  const int num_elem = 10;
-  sparse_matrix<int> matrix;
+  /* Example of initialization by the list of a one-dimensional matrix. */
+  sparse_matrix<int> m1{2,4,7,9};
 
-  /* Initialization of the main diagonal of the matrix */
-  for (size_t i = 0; i < num_elem; ++i) {
-    matrix[i][i] = static_cast<int>(i);
-  }
+  std::cout << "Matrix m1{2,4,7,9}:" << std::endl;
+  std::cout << "Size m1: " << m1.m_size() << "x" <<  m1.n_size() << std::endl;
 
-  /* Initialization of the secondary diagonal of the matrix */
-  for (size_t i = 0; i < num_elem; ++i) {
-    matrix[i][(num_elem - 1) - i] = static_cast<int>((num_elem - 1) - i);
-  }
-
-  /* Output matrix values from range [1,1] to [8,8] */
-  for (size_t i = 1; i <= 8; ++i) {
-    for (size_t j = 1; j <= 8; ++j) {
-      std::cout << std::setw(3) << matrix[i][j] << ' ';
+  for (size_t j = 0; j < m1.n_size(); ++j) {
+    for (size_t i = 0; i < m1.m_size(); ++i) {
+      std::cout << std::setw(3) << m1[i][j] << ' ';
     }
     std::cout << '\n';
   }
   std::cout << std::endl;
 
-  /* Output the number of matrix cells occupied by the data */
-  std::cout << matrix.size() << '\n' << std::endl;
+  /* Example of initialization by the list of a multidimensional matrix. */
+  sparse_matrix<int> m2{{3,4,5,6,7}, {2,4,7,9}, {1,2,3,4,5}};
 
-  /* Output of all occupied cells in the matrix */
-  for (const std::tuple<size_t, size_t, int> &elem : matrix) {
-    const size_t &hindex = std::get<0>(elem);
-    const size_t &vindex = std::get<1>(elem);
-    const int &value = std::get<2>(elem);
+  std::cout << "Matrix m2{{3,4,5,6,7}, {2,4,7,9}, {1,2,3,4,5}}:" << std::endl;
+  std::cout << "Size m2: " << m2.m_size() << "x" <<  m2.n_size() << std::endl;
 
-    std::cout << "[" << hindex << ", " << vindex << "] = " << value << '\n';
+  for (size_t j = 0; j < m2.n_size(); ++j) {
+    for (size_t i = 0; i < m2.m_size(); ++i) {
+      std::cout << std::setw(3) << m2[i][j] << ' ';
+    }
+    std::cout << '\n';
+  }
+  std::cout << std::endl;
+
+  /* Example of initialization by index of a multidimensional matrix. */
+  sparse_matrix<int> m3;
+
+  std::cout << "Matrix m3 (Init by index):" << std::endl;
+  for (size_t j = 0; j < 5; ++j) {
+    for (size_t i = 0; i < 7; ++i) {
+      m3[i][j] = static_cast<int>(i);
+    }
   }
 
-  std::cout << std::endl;
+  std::cout << "Size m2: " << m2.m_size() << "x" <<  m2.n_size() << std::endl;
+
+
 
   return 0;
 }
