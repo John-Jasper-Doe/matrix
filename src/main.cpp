@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file    main.cpp
- * @author  Maxim <aveter@bk.ru>
- * @date    19/05/2019
+ * @author  Maxim <maxim_gusev@bk.ru>
+ * @date    25/05/2019
  * @brief   The main project file is "Matrix".
  ******************************************************************************
  */
@@ -10,13 +10,15 @@
 #include "sparse_matrix.hpp"
 
 #include <iostream>
-#include <cassert>
 #include <iomanip>
 
 
 /**
- * @brief print_matrix
- * @param matrix
+ * @brief Output matrix on the screen.
+ * @tparam T - matrix element type.
+ * @tparam DEFAULT_VALUE - default value (default -1).
+ * @tparam MATRIX_SIZE - matrix size (default 2).
+ * @param matrix [in] - input data for output.
  */
 template<typename T, T DEFAULT_VALUE = -1, size_t MATRIX_SIZE = 2>
 void print_matrix(sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE> &matrix)
@@ -33,6 +35,7 @@ void print_matrix(sparse_matrix<T, DEFAULT_VALUE, MATRIX_SIZE> &matrix)
 
 /**
  * @brief Main function / entry point.
+ * @return Execution status.
  */
 int main()
 {
