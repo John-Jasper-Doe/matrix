@@ -76,7 +76,16 @@ int main()
   std::cout << "Size m5: " << m5.m_size() << "x" <<  m5.n_size() << std::endl;
   print_matrix(m5);
 
+  /* Example of iterated output */
+  for (const std::tuple<size_t, size_t, int> &elem : m3) {
+    const size_t &hindex = std::get<0>(elem);
+    const size_t &vindex = std::get<1>(elem);
+    const int &value = std::get<2>(elem);
 
+    std::cout << "[" << hindex << ", " << vindex << "] = " << value << '\n';
+  }
+
+  std::cout << std::endl;
 
   return 0;
 }
